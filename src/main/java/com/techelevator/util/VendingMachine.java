@@ -160,8 +160,8 @@ public class VendingMachine {
         String text = date.format(formatter);
 
 
-        File file = new File("capstone/src/main/resources/log.txt");
-        boolean append = file.exists() ? true : false;
+        File file = new File("C:/Users/Student/workspace/vending-machine/src/main/resources/log.txt");
+        boolean append = file.exists();
 
         try(PrintWriter write = new PrintWriter(new FileOutputStream(file, append))) {
             write.println(text + " " + action + " $" + balanceDeposit + " $" + balanceChange);
