@@ -17,7 +17,7 @@ public class VendingMachineCLI {
 	private static final String SUB_MENU_OPTION_FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] SUB_MENU_OPTIONS = { SUB_MENU_OPTION_FEED_MONEY, SUB_MENU_OPTION_SELECT_PRODUCT, SUB_MENU_OPTION_FINISH_TRANSACTION };
 
-	private Menu menu;
+	private final Menu menu;
 
 
 
@@ -28,36 +28,44 @@ public class VendingMachineCLI {
 
 
 
-	public void run() throws IOException {
+	public void run(){
 
 		VendingMachine vm = new VendingMachine();
 
+		main:
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				vm.displayInventory();
+			switch (choice) {
+				case MAIN_MENU_OPTION_DISPLAY_ITEMS:
+					vm.displayInventory();
 
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				while (true) {
-					String choice2 = (String) menu.getChoiceFromOptions(SUB_MENU_OPTIONS);
-					if (choice2.equals(SUB_MENU_OPTION_FEED_MONEY)) {
-						vm.feedMoney();
-					} else if (choice2.equals(SUB_MENU_OPTION_SELECT_PRODUCT)) {
-						vm.buyProduct();
-					} else if (choice2.equals(SUB_MENU_OPTION_FINISH_TRANSACTION)) {
-						vm.dispenseChange();
-						break;
+					break;
+				case MAIN_MENU_OPTION_PURCHASE:
+					sub:
+					while (true) {
+						String choice2 = (String) menu.getChoiceFromOptions(SUB_MENU_OPTIONS);
+						switch (choice2) {
+							case SUB_MENU_OPTION_FEED_MONEY:
+								vm.feedMoney();
+								break;
+							case SUB_MENU_OPTION_SELECT_PRODUCT:
+								vm.buyProduct();
+								break;
+							case SUB_MENU_OPTION_FINISH_TRANSACTION:
+								vm.dispenseChange();
+								break sub;
+						}
 					}
-				}
-			} else if(choice.equals(MAIN_MENU_OPTION_EXIT)) {
-				break;
+					break;
+				case MAIN_MENU_OPTION_EXIT:
+					break main;
 			}
 		}
 	}
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
-		cli.run();//
+		cli.run();
 
 	}
 

@@ -56,7 +56,7 @@ public class VendingMachine {
         }
     }
 
-    public void feedMoney() throws IOException {
+    public void feedMoney(){
         try {
             Scanner userInput = new Scanner(System.in);
             System.out.println("Current balance: " + df.format(balance));
@@ -72,7 +72,7 @@ public class VendingMachine {
     }
 
 
-    public void buyProduct() throws FileNotFoundException {
+    public void buyProduct(){
         try {
             displayInventory();
 
@@ -112,7 +112,7 @@ public class VendingMachine {
         return value;
     }
 
-    public void dispenseChange() throws FileNotFoundException {
+    public void dispenseChange() {
         log("GIVE CHANGE", balance, BigDecimal.ZERO);
 
 
@@ -153,7 +153,7 @@ public class VendingMachine {
 
 
 
-    public void log (String action, BigDecimal balanceDeposit, BigDecimal balanceChange) throws FileNotFoundException{
+    public void log (String action, BigDecimal balanceDeposit, BigDecimal balanceChange) {
 
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss a");
@@ -163,8 +163,10 @@ public class VendingMachine {
         File file = new File("C:/Users/Student/workspace/vending-machine/src/main/resources/log.txt");
         boolean append = file.exists();
 
-        try(PrintWriter write = new PrintWriter(new FileOutputStream(file, append))) {
+        try(PrintWriter write = new PrintWriter(file)) {
             write.println(text + " " + action + " $" + balanceDeposit + " $" + balanceChange);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

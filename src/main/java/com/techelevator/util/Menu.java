@@ -28,11 +28,11 @@ public class Menu {
         Object choice = null;
         String userInput = in.nextLine();
         try {
-            int selectedOption = Integer.valueOf(userInput);
+            int selectedOption = Integer.parseInt(userInput);
             if (selectedOption > 0 && selectedOption <= options.length) {
                 choice = options[selectedOption - 1];
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ignored) {
 
         }
         if (choice == null) {
